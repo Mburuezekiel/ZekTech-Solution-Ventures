@@ -9,17 +9,19 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-button hover:shadow-lg hover:scale-105",
+        default: "bg-gradient-primary text-primary-foreground hover:shadow-glow cyber-glow hover:scale-105",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline:
-          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+          "border border-primary/30 bg-background/50 hover:bg-primary/10 hover:text-primary hover:border-primary/50 tech-border",
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
-        hero: "bg-gradient-hero text-white hover:shadow-glow hover:scale-105 transition-all duration-500",
-        accent: "bg-accent text-accent-foreground hover:bg-accent/90 shadow-button hover:shadow-lg hover:scale-105",
+        ghost: "hover:bg-accent/10 hover:text-accent transition-all duration-300",
+        link: "text-primary underline-offset-4 hover:underline neon-text",
+        hero: "bg-gradient-cyber text-white border border-primary/30 hover:shadow-neon cyber-glow hover:scale-105",
+        accent: "bg-gradient-primary text-accent-foreground hover:shadow-glow cyber-glow hover:scale-105",
+        neon: "bg-neon text-neon-foreground hover:shadow-neon cyber-glow hover:scale-105",
+        cyber: "bg-gradient-card border border-primary/20 text-foreground hover:border-primary/40 hover:shadow-glow tech-border hover:scale-105"
       },
       size: {
         default: "h-10 px-4 py-2",
