@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
+import { ThemeToggle } from "./ThemeToggle";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,8 +12,9 @@ const Navbar = () => {
 
   const navLinks = [
     { name: "Home", path: "/" },
-    { name: "About", path: "/about" },
     { name: "Services", path: "/services" },
+    { name: "Projects", path: "/projects" },
+    { name: "About", path: "/about" },
     { name: "Contact", path: "/contact" },
   ];
 
@@ -43,6 +45,7 @@ const Navbar = () => {
                 {link.name}
               </Link>
             ))}
+            <ThemeToggle />
             <Button variant="hero" size="sm">
               Get Started
             </Button>
@@ -78,8 +81,9 @@ const Navbar = () => {
                   {link.name}
                 </Link>
               ))}
-              <div className="px-3 py-2">
-                <Button variant="hero" size="sm" className="w-full">
+              <div className="px-3 py-2 flex gap-2">
+                <ThemeToggle />
+                <Button variant="hero" size="sm" className="flex-1">
                   Get Started
                 </Button>
               </div>

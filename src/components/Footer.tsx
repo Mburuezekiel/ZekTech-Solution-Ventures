@@ -52,6 +52,14 @@ const Footer = () => {
               </li>
               <li>
                 <Link
+                  to="/projects"
+                  className="text-muted-foreground hover:text-primary transition-colors duration-300"
+                >
+                  Projects
+                </Link>
+              </li>
+              <li>
+                <Link
                   to="/contact"
                   className="text-muted-foreground hover:text-primary transition-colors duration-300"
                 >
