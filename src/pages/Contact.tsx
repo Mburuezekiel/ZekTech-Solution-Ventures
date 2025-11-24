@@ -69,14 +69,14 @@ const Contact = () => {
     {
       icon: Mail,
       title: "Email Us",
-      details: "hello@zektech.io",
+      details: "njuguna.ezekiel.mburu@gmail.com",
       description: "Send us an email anytime",
     },
     {
       icon: Phone,
       title: "Call Us",
-      details: "+254 700 123 456",
-      description: "Mon-Fri 9AM-6PM EAT",
+      details: "+254 714 487 081",
+      description: "Mon-Fri 8AM-7PM EAT",
     },
     {
       icon: MapPin,
