@@ -93,11 +93,21 @@ const Home = () => {
             Empowering startups and businesses with reliable freelance digital solutions that drive growth and success.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button variant="accent" size="xl" className="text-lg">
+            <Button 
+              variant="accent" 
+              size="xl" 
+              className="text-lg"
+              onClick={() => window.location.href = '/consultation'}
+            >
               Get a Free Consultation
               <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
-            <Button variant="outline" size="xl" className="bg-white/10 border-white/30 text-white hover:bg-white/20 text-lg">
+            <Button 
+              variant="outline" 
+              size="xl" 
+              className="bg-white/10 border-white/30 text-white hover:bg-white/20 text-lg"
+              onClick={() => window.location.href = '/services'}
+            >
               Explore Our Services
             </Button>
           </div>
@@ -216,11 +226,21 @@ const Home = () => {
             Let's turn your vision into reality with smart technology solutions that deliver real results.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button variant="accent" size="xl" className="text-lg">
+            <Button 
+              variant="accent" 
+              size="xl" 
+              className="text-lg"
+              onClick={() => window.location.href = '/contact'}
+            >
               Let's Talk
               <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
-            <Button variant="outline" size="xl" className="bg-white/10 border-white/30 text-white hover:bg-white/20 text-lg">
+            <Button 
+              variant="outline" 
+              size="xl" 
+              className="bg-white/10 border-white/30 text-white hover:bg-white/20 text-lg"
+              onClick={() => window.location.href = '/projects'}
+            >
               View Our Work
             </Button>
           </div>

@@ -73,10 +73,31 @@ const Footer = () => {
           <div className="space-y-4">
             <h4 className="font-semibold text-foreground">Our Services</h4>
             <ul className="space-y-2 text-muted-foreground text-sm">
-              <li>Web Design</li>
-              <li>Web Development</li>
-              <li>Mobile App Development</li>
-              <li>SEO Optimization</li>
+              <li>
+                <Link to="/services" className="hover:text-primary transition-colors duration-300">
+                  Web Design
+                </Link>
+              </li>
+              <li>
+                <Link to="/services" className="hover:text-primary transition-colors duration-300">
+                  Web Development
+                </Link>
+              </li>
+              <li>
+                <Link to="/services" className="hover:text-primary transition-colors duration-300">
+                  Mobile App Development
+                </Link>
+              </li>
+              <li>
+                <Link to="/services" className="hover:text-primary transition-colors duration-300">
+                  SEO Optimization
+                </Link>
+              </li>
+              <li>
+                <Link to="/pricing" className="hover:text-primary transition-colors duration-300 font-medium">
+                  View Pricing
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -101,26 +122,38 @@ const Footer = () => {
             {/* Social Links */}
             <div className="flex space-x-4 pt-2">
               <a
-                href="#"
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-primary transition-colors duration-300"
+                aria-label="LinkedIn"
               >
                 <Linkedin className="w-5 h-5" />
               </a>
               <a
-                href="#"
+                href="https://twitter.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-primary transition-colors duration-300"
+                aria-label="Twitter"
               >
                 <Twitter className="w-5 h-5" />
               </a>
               <a
-                href="#"
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-primary transition-colors duration-300"
+                aria-label="Instagram"
               >
                 <Instagram className="w-5 h-5" />
               </a>
               <a
-                href="#"
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-primary transition-colors duration-300"
+                aria-label="Facebook"
               >
                 <Facebook className="w-5 h-5" />
               </a>

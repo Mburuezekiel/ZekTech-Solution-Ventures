@@ -22,7 +22,7 @@ const services = [
       "Accessibility compliance"
     ],
     tools: ["Figma", "Adobe XD", "Sketch", "Photoshop", "Illustrator"],
-    pricing: "Starting from $1,500",
+    pricing: "Starting from KSh 150,000",
     timeline: "2-4 weeks",
     forWho: ["Startups needing brand presence", "SMEs refreshing their image", "Businesses expanding online"],
     benefits: [
@@ -63,7 +63,7 @@ const services = [
       "Security implementation"
     ],
     tools: ["React", "Node.js", "Python", "WordPress", "Shopify", "MongoDB"],
-    pricing: "Starting from $3,000",
+    pricing: "Starting from KSh 300,000",
     timeline: "4-8 weeks",
     forWho: ["Businesses needing custom solutions", "E-commerce companies", "Organizations with complex requirements"],
     benefits: [
@@ -104,7 +104,7 @@ const services = [
       "Offline functionality"
     ],
     tools: ["React Native", "Flutter", "Swift", "Kotlin", "Firebase", "MongoDB"],
-    pricing: "Starting from $5,000",
+    pricing: "Starting from KSh 500,000",
     timeline: "6-12 weeks",
     forWho: ["Startups entering mobile market", "Businesses expanding reach", "Companies needing mobile solutions"],
     benefits: [
@@ -145,7 +145,7 @@ const services = [
       "Performance monitoring"
     ],
     tools: ["Google Analytics", "SEMrush", "Ahrefs", "Google Search Console", "Screaming Frog"],
-    pricing: "Starting from $800/month",
+    pricing: "Starting from KSh 80,000/month",
     timeline: "3-6 months",
     forWho: ["Businesses seeking online visibility", "E-commerce sites", "Local service providers"],
     benefits: [
@@ -331,7 +331,11 @@ const Services = () => {
                           <p className="text-2xl font-bold text-primary">{service.pricing}</p>
                           <p className="text-sm text-muted-foreground">Timeline: {service.timeline}</p>
                         </div>
-                        <Button variant="hero" className="cyber-glow">
+                        <Button 
+                          variant="hero" 
+                          className="cyber-glow"
+                          onClick={() => window.location.href = '/consultation'}
+                        >
                           Get Started
                           <Icon icon="solar:arrow-right-bold" className="ml-2 w-4 h-4" />
                         </Button>
