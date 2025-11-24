@@ -9,9 +9,13 @@ const Footer = () => {
           {/* Company Info */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-hero rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">Z</span>
-              </div>
+              <div className="w-8 h-8 bg-white rounded flex items-center justify-center">
+    <img
+      src="/ZekTechLogo.png"
+      alt="ZEKTECH Logo"
+      className="w-5 h-5"
+    />
+  </div>
               <span className="font-bold text-xl text-foreground">ZEKTECH</span>
             </div>
             <p className="text-muted-foreground text-sm leading-relaxed">
