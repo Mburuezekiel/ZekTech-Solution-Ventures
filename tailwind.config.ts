@@ -19,8 +19,8 @@ export default {
 		},
 		extend: {
 			fontFamily: {
-				'heading': ['Orbitron', 'sans-serif'],
-				'body': ['Inter', 'sans-serif'],
+				'heading': ['Candara', 'sans-serif'],
+				'body': ['Cambria', 'serif'],
 			},
 			colors: {
 				border: 'hsl(var(--border))',
@@ -49,13 +49,9 @@ export default {
 					DEFAULT: 'hsl(var(--accent))',
 					foreground: 'hsl(var(--accent-foreground))'
 				},
-				neon: {
-					DEFAULT: 'hsl(var(--neon))',
-					foreground: 'hsl(var(--neon-foreground))'
-				},
-				purple: {
-					DEFAULT: 'hsl(var(--purple))',
-					foreground: 'hsl(var(--purple-foreground))'
+				teal: {
+					DEFAULT: 'hsl(var(--teal))',
+					foreground: 'hsl(var(--teal-foreground))'
 				},
 				popover: {
 					DEFAULT: 'hsl(var(--popover))',
@@ -79,16 +75,14 @@ export default {
 			backgroundImage: {
 				'gradient-primary': 'var(--gradient-primary)',
 				'gradient-hero': 'var(--gradient-hero)',
-				'gradient-cyber': 'var(--gradient-cyber)',
 				'gradient-card': 'var(--gradient-card)',
 				'gradient-subtle': 'var(--gradient-subtle)',
-				'gradient-glow': 'var(--gradient-glow)'
 			},
 			boxShadow: {
-				'glow': 'var(--shadow-glow)',
-				'neon': 'var(--shadow-neon)',
+				'sm': 'var(--shadow-sm)',
+				'md': 'var(--shadow-md)',
+				'lg': 'var(--shadow-lg)',
 				'card': 'var(--shadow-card)',
-				'button': 'var(--shadow-button)'
 			},
 			transitionTimingFunction: {
 				'smooth': 'var(--transition-smooth)',
