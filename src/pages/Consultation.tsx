@@ -81,16 +81,20 @@ const Consultation = () => {
   ];
 
   const budgetRanges = [
+    "Not sure yet",
+    "KSh 10,000 - 20,000",
+    "KSh 20,000 - 50,000",
     "KSh 50,000 - 100,000",
     "KSh 100,000 - 250,000",
     "KSh 250,000 - 500,000",
     "KSh 500,000 - 1,000,000",
     "KSh 1,000,000+",
-    "Not sure yet",
+    
   ];
 
   const timelines = [
-    "ASAP - Within 1 month",
+
+    "ASAP - Within 1-2 weeks",
     "1-3 months",
     "3-6 months",
     "6+ months",
@@ -112,7 +116,7 @@ const Consultation = () => {
               Book Your Free Consultation
             </h1>
             <p className="text-xl text-blue-100 mb-8 max-w-3xl mx-auto leading-relaxed">
-              Let's discuss your project in detail. Get expert advice, clear pricing, and a customized roadmap - absolutely free with no strings attached.
+              Let's discuss your project in detail. Get expert advice, clear pricing, and a customized roadmap, absolutely free with no charges attached.
             </p>
             <div className="flex items-center justify-center space-x-8 text-white">
               <div className="flex items-center space-x-2">
@@ -276,7 +280,7 @@ const Consultation = () => {
                       />
                     </div>
 
-                    <Button type="submit" variant="hero" size="lg" className="w-full">
+                    <Button type="submit" variant="accent" size="lg" className="w-full">
                       Book Free Consultation
                       <ArrowRight className="ml-2 w-4 h-4" />
                     </Button>

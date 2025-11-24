@@ -263,7 +263,7 @@ const Pricing = () => {
               Get in touch with us for a free consultation. We'll help you choose the perfect solution for your business.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/contact">
+              <Link to="/consultation">
                 <Button size="lg" className="bg-primary hover:bg-primary/90 w-full sm:w-auto">
                   <Icon icon="solar:chat-round-bold" className="mr-2" width="20" height="20" />
                   Get Free Consultation
