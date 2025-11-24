@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Icon } from "@iconify/react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardDescription, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
+import { Link as RouterLink } from "react-router-dom"; // updated for routing
 
 const services = [
   {
@@ -194,29 +195,19 @@ const targetAudiences = [
   }
 ];
 
+
 const Services = () => {
   const [selectedService, setSelectedService] = useState("web-design");
   const [expandedService, setExpandedService] = useState<string | null>(null);
 
   const containerVariants = {
     hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
+    visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
   };
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5
-      }
-    }
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   };
 
   const toggleExpanded = (serviceId: string) => {
@@ -324,25 +315,22 @@ const Services = () => {
                       </div>
                     </div>
 
-                    <div className="cyber-card rounded-xl p-6 mb-6">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <p className="text-sm text-muted-foreground">Investment</p>
-                          <p className="text-2xl font-bold text-primary">{service.pricing}</p>
-                          <p className="text-sm text-muted-foreground">Timeline: {service.timeline}</p>
-                        </div>
-                        <Button 
-                          variant="hero" 
-                          className="cyber-glow"
-                          onClick={() => window.location.href = '/consultation'}
-                        >
+                    {/* Investment / Get Started */}
+                    <div className="cyber-card rounded-xl p-6 mb-6 flex flex-col md:flex-row items-center justify-between gap-4">
+                      <div>
+                        <p className="text-sm text-muted-foreground">Investment</p>
+                        <p className="text-2xl font-bold text-primary">{service.pricing}</p>
+                        <p className="text-sm text-muted-foreground">Timeline: {service.timeline}</p>
+                      </div>
+                      <Button asChild variant="hero" className="cyber-glow w-full md:w-auto">
+                        <RouterLink to="/consultation">
                           Get Started
                           <Icon icon="solar:arrow-right-bold" className="ml-2 w-4 h-4" />
-                        </Button>
-                      </div>
+                        </RouterLink>
+                      </Button>
                     </div>
 
-                    {/* Blog-like Read More Feature */}
+                    {/* Read More Section */}
                     <div className="cyber-card rounded-xl p-6">
                       <div className="flex items-center justify-between mb-4">
                         <h3 className="text-xl font-semibold">
@@ -352,6 +340,7 @@ const Services = () => {
                         <Button
                           variant="outline"
                           size="sm"
+                          className="hover:bg-primary/10 hover:text-primary"
                           onClick={() => toggleExpanded(service.id)}
                         >
                           {expandedService === service.id ? "Read Less" : "Read More"}
@@ -361,7 +350,7 @@ const Services = () => {
                           />
                         </Button>
                       </div>
-                      
+
                       {expandedService === service.id && (
                         <motion.div
                           initial={{ opacity: 0, height: 0 }}
@@ -413,6 +402,7 @@ const Services = () => {
                     </div>
                   </div>
 
+                  {/* Right Column: Who It's For & Benefits */}
                   <motion.div
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -464,7 +454,7 @@ const Services = () => {
         </div>
       </section>
 
-      {/* Target Audiences */}
+      {/* Target Audiences Section */}
       <section className="py-20 bg-gradient-card">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -530,13 +520,16 @@ const Services = () => {
           <p className="text-xl text-white/80 mb-8 leading-relaxed">
             Let's discuss your project and find the perfect solution for your business needs.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button variant="accent" size="lg" className="cyber-glow">
-              Schedule Consultation
-              <Icon icon="solar:arrow-right-bold" className="ml-2 w-5 h-5" />
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mt-6">
+            <Button asChild variant="accent" size="lg" className="cyber-glow w-full sm:w-auto">
+              <RouterLink to="/consultation">
+                Schedule Consultation
+                <Icon icon="solar:arrow-right-bold" className="ml-2 w-5 h-5" />
+              </RouterLink>
             </Button>
-            <Button variant="outline" size="lg" className="bg-white/10 border-white/30 text-white hover:bg-white/20">
-              View Portfolio
+
+            <Button asChild variant="outline" size="lg" className="bg-white/10 border-white/30 text-white hover:bg-white/20 w-full sm:w-auto">
+              <RouterLink to="/projects">View Projects</RouterLink>
             </Button>
           </div>
         </div>

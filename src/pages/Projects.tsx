@@ -2,7 +2,14 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Icon } from "@iconify/react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Link as RouterLink } from "react-router-dom";
 
 const projects = [
   {
@@ -14,30 +21,33 @@ const projects = [
     image: "https://krystalmall.co.ke/Krystal%20Christmas%20Logo%20.png",
     demoUrl: "https://krystalmall.co.ke",
     githubUrl: "#",
-    featured: true
+    featured: true,
   },
-  
+
   {
     id: 2,
     title: "University Mapping App",
-    description: "Efficient  mobile mapping application with GPS tracking and real-time updates",
+    description:
+      "Efficient  mobile mapping application with GPS tracking and real-time updates",
     category: "Mobile Development",
     technologies: ["React Native", "Firebase", "Redux"],
     image: "https://mut-lecture-rooms.vercel.app/mut-logo.jpeg",
     demoUrl: "https://mut-lecture-rooms.vercel.app/",
     githubUrl: "#",
-    featured: true
+    featured: true,
   },
   {
     id: 3,
     title: "InuaFund CrowdFunding ",
-    description: "A community-driven crowd-funding platform that empowers individuals in need by connecting them with donors willing to support their causes. ",
+    description:
+      "A community-driven crowd-funding platform that empowers individuals in need by connecting them with donors willing to support their causes. ",
     category: "Web Development",
     technologies: ["Next.js", "Express", "MongoDB"],
-    image: "https://res.cloudinary.com/dwv6j0nku/image/upload/v1752682835/sws9utg3bcbtz5e2k3uj.jpg",
+    image:
+      "https://res.cloudinary.com/dwv6j0nku/image/upload/v1752682835/sws9utg3bcbtz5e2k3uj.jpg",
     demoUrl: "https://www.inuafund.co.ke",
     githubUrl: "#",
-    featured: false
+    featured: false,
   },
   {
     id: 4,
@@ -45,10 +55,11 @@ const projects = [
     description: "Cross-platform task management mobile application",
     category: "Mobile Development",
     technologies: ["Flutter", "Laravel", "MySQL"],
-    image: "https://ezekielmburuportfolio.vercel.app/assets/taskui-gPz_eRJ4.webp",
+    image:
+      "https://ezekielmburuportfolio.vercel.app/assets/taskui-gPz_eRJ4.webp",
     demoUrl: "https://trackmateapp.vercel.app",
     githubUrl: "#",
-    featured: false
+    featured: false,
   },
   {
     id: 5,
@@ -59,7 +70,7 @@ const projects = [
     image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=500",
     demoUrl: "#",
     githubUrl: "#",
-    featured: false
+    featured: false,
   },
   {
     id: 6,
@@ -70,27 +81,28 @@ const projects = [
     image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500",
     demoUrl: "#",
     githubUrl: "#",
-    featured: false
-  }
+    featured: false,
+  },
 ];
 
 const categories = ["All", "Web Development", "Mobile Development"];
 
 const Projects = () => {
   const [selectedCategory, setSelectedCategory] = React.useState("All");
-  
-  const filteredProjects = selectedCategory === "All" 
-    ? projects 
-    : projects.filter(project => project.category === selectedCategory);
+
+  const filteredProjects =
+    selectedCategory === "All"
+      ? projects
+      : projects.filter((project) => project.category === selectedCategory);
 
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1
-      }
-    }
+        staggerChildren: 0.1,
+      },
+    },
   };
 
   const itemVariants = {
@@ -99,20 +111,20 @@ const Projects = () => {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.5
-      }
-    }
+        duration: 0.5,
+      },
+    },
   };
 
   const handleViewProject = (url) => {
     if (url && url !== "#") {
-      window.open(url, '_blank', 'noopener,noreferrer');
+      window.open(url, "_blank", "noopener,noreferrer");
     }
   };
 
   const handleViewGithub = (url) => {
     if (url && url !== "#") {
-      window.open(url, '_blank', 'noopener,noreferrer');
+      window.open(url, "_blank", "noopener,noreferrer");
     }
   };
 
@@ -130,8 +142,8 @@ const Projects = () => {
             Our <span className="neon-text">Projects</span>
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Explore our portfolio of innovative solutions that have helped businesses 
-            transform their digital presence and achieve their goals.
+            Explore our portfolio of innovative solutions that have helped
+            businesses transform their digital presence and achieve their goals.
           </p>
         </motion.div>
 
@@ -146,7 +158,7 @@ const Projects = () => {
             {categories.map((category) => (
               <Button
                 key={category}
-                variant={selectedCategory === category ? "hero" : "outline"}
+                variant={selectedCategory === category ? "default" : "outline"}
                 onClick={() => setSelectedCategory(category)}
                 className="px-6 py-2"
               >
@@ -166,7 +178,6 @@ const Projects = () => {
           <h2 className="text-3xl font-heading font-bold mb-8 text-center">
             Featured Projects
           </h2>
-          
         </motion.div>
 
         {/* All Projects Grid */}
@@ -215,9 +226,9 @@ const Projects = () => {
                   )}
                 </div>
                 <div className="flex gap-2">
-                  <Button 
-                    variant="hero" 
-                    size="sm" 
+                  <Button
+                    variant="accent"
+                    size="sm"
                     className="flex-1"
                     onClick={() => handleViewProject(project.demoUrl)}
                     disabled={project.demoUrl === "#"}
@@ -225,8 +236,8 @@ const Projects = () => {
                     <Icon icon="solar:eye-bold" className="mr-2 h-4 w-4" />
                     View
                   </Button>
-                  <Button 
-                    variant="outline" 
+                  <Button
+                    variant="outline"
                     size="sm"
                     onClick={() => handleViewGithub(project.githubUrl)}
                     disabled={project.githubUrl === "#"}
@@ -251,12 +262,19 @@ const Projects = () => {
               Ready to Start Your Project?
             </h2>
             <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Let's discuss how we can bring your vision to life with cutting-edge technology 
-              and innovative solutions tailored to your needs.
+              Let's discuss how we can bring your vision to life with
+              cutting-edge technology and innovative solutions tailored to your
+              needs.
             </p>
-            <Button variant="hero" size="lg" className="cyber-glow">
-              <Icon icon="solar:rocket-bold" className="mr-2 h-5 w-5" />
-              Start Your Project
+
+            <Button
+              asChild
+              variant="hero"
+              size="lg"
+              className="cyber-glow ml-4"
+            >
+              <RouterLink to="/consultation"> Start Your Project</RouterLink>
+              
             </Button>
           </div>
         </motion.div>

@@ -73,25 +73,33 @@ const pricingPlans = [
 
 const addOns = [
   {
+    name: "Logo Design",
+    price: "KSh 1,500+",
+    icon: "solar:palette-bold",
+  },
+  {
+    name: "Content Updates",
+    price: "KSh 2000/month",
+    icon: "solar:document-text-bold",
+  },
+   {
+    name: "Web hosting",
+    price: "KES 6,000+ yearly",
+    icon: "solar:cloud-bold",
+  },
+  {
     name: "SEO Package",
     price: "KSh 9,000/month",
     icon: "solar:graph-up-bold",
   },
   {
-    name: "Maintenance",
-    price: "KSh 4,000/month",
+    name: "Maintenance & updates",
+    price: "KES 10,000+ yearly",
     icon: "solar:settings-bold",
   },
-  {
-    name: "Content Updates",
-    price: "KSh 2,000/month",
-    icon: "solar:document-text-bold",
-  },
-  {
-    name: "Logo Design",
-    price: "KSh 5,000",
-    icon: "solar:palette-bold",
-  },
+ 
+  
+  
 ];
 
 const Pricing = () => {
