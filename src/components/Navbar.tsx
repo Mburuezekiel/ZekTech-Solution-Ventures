@@ -14,7 +14,6 @@ const Navbar = () => {
     { name: "Home", path: "/" },
     { name: "Services", path: "/services" },
     { name: "Projects", path: "/projects" },
-    { name: "Pricing", path: "/pricing" },
     { name: "About", path: "/about" },
     { name: "Contact", path: "/contact" },
   ];
@@ -47,9 +46,11 @@ const Navbar = () => {
               </Link>
             ))}
             <ThemeToggle />
-            <Button size="sm" className="bg-primary hover:bg-primary/90">
-              Get Started
-            </Button>
+            <Link to="/consultation">
+              <Button size="sm" className="bg-primary hover:bg-primary/90">
+                Get Started
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -85,9 +86,11 @@ const Navbar = () => {
                 </Link>
               ))}
               <div className="px-4 pt-2">
-                <Button size="sm" className="w-full bg-primary hover:bg-primary/90">
-                  Get Started
-                </Button>
+                <Link to="/consultation" className="block">
+                  <Button size="sm" className="w-full bg-primary hover:bg-primary/90">
+                    Get Started
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>

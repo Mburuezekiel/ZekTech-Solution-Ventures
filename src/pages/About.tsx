@@ -212,7 +212,12 @@ const About = () => {
           <p className="text-xl text-blue-100 mb-8 leading-relaxed">
             Let's discuss how we can help transform your business with smart technology solutions.
           </p>
-          <Button variant="accent" size="xl" className="text-lg">
+          <Button 
+            variant="accent" 
+            size="xl" 
+            className="text-lg"
+            onClick={() => window.location.href = '/consultation'}
+          >
             Start Your Project
             <ArrowRight className="ml-2 w-5 h-5" />
           </Button>
