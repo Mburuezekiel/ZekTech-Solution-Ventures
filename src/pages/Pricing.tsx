@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 const pricingPlans = [
   {
     name: "Basic Website",
-    price: "KSh 25,000",
+    price: "KSh 18,000+",
     description: "Perfect for startups and small businesses",
     features: [
       "5-7 Page Website",
@@ -21,7 +21,7 @@ const pricingPlans = [
   },
   {
     name: "Business Website",
-    price: "KSh 45,000",
+    price: "KSh 30,000+",
     description: "Ideal for growing businesses",
     features: [
       "10-15 Page Website",
@@ -37,7 +37,7 @@ const pricingPlans = [
   },
   {
     name: "E-Commerce",
-    price: "KSh 75,000",
+    price: "KSh 50,000+",
     description: "Complete online store solution",
     features: [
       "Unlimited Products",
@@ -54,7 +54,7 @@ const pricingPlans = [
   },
   {
     name: "Mobile App",
-    price: "KSh 120,000",
+    price: "KSh 100,000+",
     description: "Custom mobile applications",
     features: [
       "iOS & Android Apps",
@@ -74,22 +74,22 @@ const pricingPlans = [
 const addOns = [
   {
     name: "SEO Package",
-    price: "KSh 15,000/month",
+    price: "KSh 9,000/month",
     icon: "solar:graph-up-bold",
   },
   {
     name: "Maintenance",
-    price: "KSh 10,000/month",
+    price: "KSh 4,000/month",
     icon: "solar:settings-bold",
   },
   {
     name: "Content Updates",
-    price: "KSh 5,000/month",
+    price: "KSh 2,000/month",
     icon: "solar:document-text-bold",
   },
   {
     name: "Logo Design",
-    price: "KSh 8,000",
+    price: "KSh 5,000",
     icon: "solar:palette-bold",
   },
 ];

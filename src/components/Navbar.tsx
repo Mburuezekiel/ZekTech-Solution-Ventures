@@ -26,7 +26,7 @@ const Navbar = () => {
           {/* Logo  use the image favicon.ico*/}
           {/* Logo (using uploaded favicon image) */}
 <Link to="/" className="flex items-center space-x-2">
-  <div className="w-8 h-8 bg-primary rounded flex items-center justify-center">
+  <div className="w-8 h-8 bg-white rounded flex items-center justify-center">
     <img
       src="/ZekTechLogo.png"
       alt="ZEKTECH Logo"
@@ -35,10 +35,10 @@ const Navbar = () => {
   </div>
 
   {/* Text container */}
-  <div className="flex flex-col leading-tight hidden sm:flex">
+  <div className="flex flex-col leading-tight  sm:flex">
     <span className="font-bold text-xl text-foreground">ZEKTECH</span>
-    <span className="text-xs text-muted-foreground mt-[-2px]">
-      Solutions & Ventures
+    <span className="text-xs text-muted-foreground mt-[-2px] ">
+      Solutions Ventures
     </span>
   </div>
 </Link>

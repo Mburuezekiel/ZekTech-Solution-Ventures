@@ -11,41 +11,42 @@ const projects = [
     description: "Modern e-commerce solution with React and Node.js",
     category: "Web Development",
     technologies: ["React", "Node.js", "MongoDB", "Stripe"],
-    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=500",
-    demoUrl: "#",
+    image: "https://krystalmall.co.ke/Krystal%20Christmas%20Logo%20.png",
+    demoUrl: "https://krystalmall.co.ke",
     githubUrl: "#",
     featured: true
   },
+  
   {
     id: 2,
-    title: "Mobile Banking App",
-    description: "Secure mobile banking application with biometric authentication",
+    title: "University Mapping App",
+    description: "Efficient  mobile mapping application with GPS tracking and real-time updates",
     category: "Mobile Development",
     technologies: ["React Native", "Firebase", "Redux"],
-    image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=500",
-    demoUrl: "#",
+    image: "https://mut-lecture-rooms.vercel.app/mut-logo.jpeg",
+    demoUrl: "https://mut-lecture-rooms.vercel.app/",
     githubUrl: "#",
     featured: true
   },
   {
     id: 3,
-    title: "Healthcare Dashboard",
-    description: "Administrative dashboard for healthcare management",
+    title: "InuaFund CrowdFunding ",
+    description: "A community-driven crowd-funding platform that empowers individuals in need by connecting them with donors willing to support their causes. ",
     category: "Web Development",
-    technologies: ["Vue.js", "Express", "PostgreSQL"],
-    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=500",
-    demoUrl: "#",
+    technologies: ["Next.js", "Express", "MongoDB"],
+    image: "https://res.cloudinary.com/dwv6j0nku/image/upload/v1752682835/sws9utg3bcbtz5e2k3uj.jpg",
+    demoUrl: "https://www.inuafund.co.ke",
     githubUrl: "#",
     featured: false
   },
   {
     id: 4,
-    title: "Food Delivery App",
-    description: "Cross-platform food delivery application",
+    title: "Task Management App",
+    description: "Cross-platform task management mobile application",
     category: "Mobile Development",
     technologies: ["Flutter", "Laravel", "MySQL"],
-    image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=500",
-    demoUrl: "#",
+    image: "https://ezekielmburuportfolio.vercel.app/assets/taskui-gPz_eRJ4.webp",
+    demoUrl: "https://trackmateapp.vercel.app",
     githubUrl: "#",
     featured: false
   },
@@ -103,6 +104,18 @@ const Projects = () => {
     }
   };
 
+  const handleViewProject = (url) => {
+    if (url && url !== "#") {
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }
+  };
+
+  const handleViewGithub = (url) => {
+    if (url && url !== "#") {
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-subtle pt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -153,58 +166,7 @@ const Projects = () => {
           <h2 className="text-3xl font-heading font-bold mb-8 text-center">
             Featured Projects
           </h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            {projects.filter(p => p.featured).map((project) => (
-              <motion.div
-                key={project.id}
-                variants={itemVariants}
-                className="cyber-card rounded-xl overflow-hidden group"
-              >
-                <div className="relative overflow-hidden">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-primary opacity-0 group-hover:opacity-80 transition-opacity duration-300 flex items-center justify-center">
-                    <div className="flex gap-4">
-                      <Button variant="hero" size="sm">
-                        <Icon icon="solar:eye-bold" className="mr-2 h-4 w-4" />
-                        View Demo
-                      </Button>
-                      <Button variant="outline" size="sm">
-                        <Icon icon="solar:code-bold" className="mr-2 h-4 w-4" />
-                        Code
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-                <CardHeader>
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <CardTitle className="text-xl mb-2">{project.title}</CardTitle>
-                      <CardDescription className="text-sm text-primary mb-2">
-                        {project.category}
-                      </CardDescription>
-                    </div>
-                  </div>
-                  <p className="text-muted-foreground">{project.description}</p>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex flex-wrap gap-2">
-                    {project.technologies.map((tech) => (
-                      <span
-                        key={tech}
-                        className="px-3 py-1 bg-secondary rounded-full text-xs font-medium"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </CardContent>
-              </motion.div>
-            ))}
-          </div>
+          
         </motion.div>
 
         {/* All Projects Grid */}
@@ -253,11 +215,22 @@ const Projects = () => {
                   )}
                 </div>
                 <div className="flex gap-2">
-                  <Button variant="hero" size="sm" className="flex-1">
+                  <Button 
+                    variant="hero" 
+                    size="sm" 
+                    className="flex-1"
+                    onClick={() => handleViewProject(project.demoUrl)}
+                    disabled={project.demoUrl === "#"}
+                  >
                     <Icon icon="solar:eye-bold" className="mr-2 h-4 w-4" />
                     View
                   </Button>
-                  <Button variant="outline" size="sm">
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => handleViewGithub(project.githubUrl)}
+                    disabled={project.githubUrl === "#"}
+                  >
                     <Icon icon="solar:code-bold" className="h-4 w-4" />
                   </Button>
                 </div>

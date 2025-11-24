@@ -107,11 +107,11 @@ const Footer = () => {
             <div className="space-y-3">
               <div className="flex items-center space-x-2 text-muted-foreground text-sm">
                 <Mail className="w-4 h-4" />
-                <span>hello@zektech.io</span>
+                <span>njuguna.ezekiel.mburu@gmail.com</span>
               </div>
               <div className="flex items-center space-x-2 text-muted-foreground text-sm">
                 <Phone className="w-4 h-4" />
-                <span>+254 700 123 456</span>
+                <span>+254 714 487 081</span>
               </div>
               <div className="flex items-center space-x-2 text-muted-foreground text-sm">
                 <MapPin className="w-4 h-4" />
@@ -165,7 +165,7 @@ const Footer = () => {
         <div className="border-t border-border pt-8 mt-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-muted-foreground text-sm">
-              © 2024 ZEKTECH SOLUTION VENTURES. All rights reserved.
+              © 2025 ZEKTECH SOLUTION VENTURES. All rights reserved.
             </p>
             <p className="text-primary text-sm font-medium">
               Smart Tech, Real Solutions

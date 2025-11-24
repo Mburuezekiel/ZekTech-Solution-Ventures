@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { 
@@ -9,10 +10,14 @@ import {
   ArrowRight,
   Award,
   Clock,
-  Handshake
+  Handshake,
+  X,
+  FileText
 } from "lucide-react";
 
 const About = () => {
+   const [showCertificate, setShowCertificate] = useState(false);
+
   const values = [
     {
       icon: Target,
@@ -68,8 +73,39 @@ const About = () => {
 
   return (
     <div className="min-h-screen pt-16">
+      {showCertificate && (
+        <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 animate-fade-in" onClick={() => setShowCertificate(false)}>
+          <div className="relative max-w-4xl w-full bg-white rounded-lg shadow-2xl" onClick={(e) => e.stopPropagation()}>
+            <button 
+              onClick={() => setShowCertificate(false)}
+              className="absolute -top-4 -right-4 bg-red-500 hover:bg-red-600 text-white rounded-full p-2 shadow-lg transition-all duration-300 hover:scale-110"
+            >
+              <X className="w-6 h-6" />
+            </button>
+            <div className="p-4">
+              <iframe 
+                src="/Business Registration Certificate.pdf" 
+                title="ZEKTECH Registration Certificate" 
+                className="w-full h-[600px] rounded"
+              />
+            </div>
+          </div>
+        </div>
+      )}
       {/* Hero Section */}
-      <section className="py-20 bg-gradient-subtle">
+      <section className="py-20 bg-gradient-subtle relative">
+        {/* top right button for view our registration certificate  */}
+        <div className="absolute top-8 right-8 z-10">
+            <Button
+              size="lg"
+              variant="outline"
+              className="border-2 border-white/70 text-white hover:bg-white/10 px-8 py-6 text-base backdrop-blur-sm bg-white/5 hover:scale-105 transition-all duration-300"
+              onClick={() => setShowCertificate(true)}
+            >
+              <FileText className="mr-2 h-5 w-5" />
+               Registration Certificate
+            </Button>
+          </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
