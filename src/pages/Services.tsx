@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { Icon } from "@iconify/react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardDescription, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { Link as RouterLink } from "react-router-dom"; // updated for routing
+import { Link as RouterLink } from "react-router-dom"; 
 
+// --- Data (Unchanged) ---
 const services = [
   {
     id: "web-design",
@@ -23,8 +24,8 @@ const services = [
       "Accessibility compliance"
     ],
     tools: ["Figma", "Adobe XD", "Sketch", "Photoshop", "Illustrator"],
-    pricing: "Starting from KSh 150,000",
-    timeline: "2-4 weeks",
+    pricing: "Starting from KSh 5,000",
+    timeline: "1-2 weeks",
     forWho: ["Startups needing brand presence", "SMEs refreshing their image", "Businesses expanding online"],
     benefits: [
       "Increase credibility and trust",
@@ -64,8 +65,8 @@ const services = [
       "Security implementation"
     ],
     tools: ["React", "Node.js", "Python", "WordPress", "Shopify", "MongoDB"],
-    pricing: "Starting from KSh 300,000",
-    timeline: "4-8 weeks",
+    pricing: "Starting from KSh 10,000",
+    timeline: "2-8 weeks",
     forWho: ["Businesses needing custom solutions", "E-commerce companies", "Organizations with complex requirements"],
     benefits: [
       "Streamlined business processes",
@@ -105,7 +106,7 @@ const services = [
       "Offline functionality"
     ],
     tools: ["React Native", "Flutter", "Swift", "Kotlin", "Firebase", "MongoDB"],
-    pricing: "Starting from KSh 500,000",
+    pricing: "Starting from KSh 100,000",
     timeline: "6-12 weeks",
     forWho: ["Startups entering mobile market", "Businesses expanding reach", "Companies needing mobile solutions"],
     benefits: [
@@ -136,7 +137,7 @@ const services = [
     title: "SEO Optimization",
     subtitle: "Dominate Search Rankings",
     description: "Boost your online visibility and drive organic traffic with comprehensive SEO strategies.",
-    icon: "solar:magnifier-bold",
+    icon: "solar:eye-bold",
     features: [
       "Keyword research & strategy",
       "On-page optimization",
@@ -195,10 +196,60 @@ const targetAudiences = [
   }
 ];
 
-
 const Services = () => {
   const [selectedService, setSelectedService] = useState("web-design");
   const [expandedService, setExpandedService] = useState<string | null>(null);
+  const [isIdle, setIsIdle] = useState(false);
+
+  // --- IDLE ANIMATION LOGIC ---
+  const IDLE_TIMEOUT_MS = 10000; // 10 seconds
+  const [lastActive, setLastActive] = useState(Date.now());
+
+  const resetActivityTimer = useCallback(() => {
+    setLastActive(Date.now());
+    setIsIdle(false);
+  }, []);
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+
+    const checkIdle = () => {
+      if (Date.now() - lastActive > IDLE_TIMEOUT_MS) {
+        setIsIdle(true);
+      }
+    };
+
+    // Set up interval to check idle status
+    timer = setInterval(checkIdle, 2000); 
+
+    // Add activity listeners
+    window.addEventListener('mousemove', resetActivityTimer);
+    window.addEventListener('mousedown', resetActivityTimer);
+    window.addEventListener('scroll', resetActivityTimer);
+    window.addEventListener('keypress', resetActivityTimer);
+
+    // Clean up event listeners and timer
+    return () => {
+      clearInterval(timer);
+      window.removeEventListener('mousemove', resetActivityTimer);
+      window.removeEventListener('mousedown', resetActivityTimer);
+      window.removeEventListener('scroll', resetActivityTimer);
+      window.removeEventListener('keypress', resetActivityTimer);
+    };
+  }, [lastActive, resetActivityTimer]);
+
+  const idlePulse = {
+    // Defines the repeating animation: Scale down then back up
+    scale: [1, 0.95, 1],
+    transition: {
+      duration: 1.5,
+      ease: [0.42, 0, 0.58, 1], // cubic-bezier equivalent for easeInOut
+      repeat: Infinity,
+      repeatDelay: 2, // Wait 2 seconds before the next pulse
+    }
+  };
+  // --- END IDLE ANIMATION LOGIC ---
+
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -242,16 +293,17 @@ const Services = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <TabsList className="grid w-full grid-cols-1 md:grid-cols-4 mb-12 h-auto cyber-card">
+              {/* FIX 1: TabsList for mobile horizontal scrolling */}
+              <TabsList className="flex overflow-x-auto whitespace-nowrap w-full md:grid md:grid-cols-4 mb-12 h-auto cyber-card">
                 {services.map((service) => (
                   <TabsTrigger 
                     key={service.id} 
                     value={service.id}
-                    className="flex flex-col items-center p-6 text-left h-auto data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                    className="flex flex-col items-center p-4 sm:p-6 text-left h-auto data-[state=active]:bg-primary data-[state=active]:text-primary-foreground flex-shrink-0 min-w-[120px]"
                   >
-                    <Icon icon={service.icon} className="w-8 h-8 mb-2" />
-                    <span className="font-semibold">{service.title}</span>
-                    <span className="text-xs opacity-70">{service.subtitle}</span>
+                    <Icon icon={service.icon} className="w-6 h-6 mb-1 md:w-8 md:h-8 md:mb-2" />
+                    <span className="font-semibold text-sm md:text-base">{service.title}</span>
+                    <span className="text-xs opacity-70 hidden sm:inline">{service.subtitle}</span>
                   </TabsTrigger>
                 ))}
               </TabsList>
@@ -322,12 +374,18 @@ const Services = () => {
                         <p className="text-2xl font-bold text-primary">{service.pricing}</p>
                         <p className="text-sm text-muted-foreground">Timeline: {service.timeline}</p>
                       </div>
-                      <Button asChild variant="hero" className="cyber-glow w-full md:w-auto">
-                        <RouterLink to="/consultation">
-                          Get Started
-                          <Icon icon="solar:arrow-right-bold" className="ml-2 w-4 h-4" />
-                        </RouterLink>
-                      </Button>
+                      
+                      {/* Button with Idle Animation */}
+                      <motion.div
+                        animate={isIdle ? idlePulse : {}}
+                      >
+                        <Button asChild variant="hero" className="cyber-glow w-full md:w-auto">
+                          <RouterLink to="/consultation">
+                            Get Started
+                            <Icon icon="solar:arrow-right-bold" className="ml-2 w-4 h-4" />
+                          </RouterLink>
+                        </Button>
+                      </motion.div>
                     </div>
 
                     {/* Read More Section */}
@@ -340,7 +398,7 @@ const Services = () => {
                         <Button
                           variant="outline"
                           size="sm"
-                          className="hover:bg-primary/10 hover:text-primary"
+                          className="hover:bg-primary/10 hover:text-primary flex-shrink-0"
                           onClick={() => toggleExpanded(service.id)}
                         >
                           {expandedService === service.id ? "Read Less" : "Read More"}
@@ -383,10 +441,11 @@ const Services = () => {
                               <Icon icon="solar:chart-square-bold" className="w-5 h-5 mr-2 text-accent" />
                               Case Study: {service.detailedContent.caseStudy.title}
                             </h4>
+                            {/* FIX 2: Responsive image height for mobile */}
                             <img 
                               src={service.detailedContent.caseStudy.image} 
                               alt={service.detailedContent.caseStudy.title}
-                              className="w-full h-32 object-cover rounded-lg mb-3"
+                              className="w-full h-40 md:h-56 object-cover rounded-lg mb-3"
                             />
                             <p className="text-muted-foreground mb-3">{service.detailedContent.caseStudy.description}</p>
                             <div className="flex flex-wrap gap-2">
@@ -454,7 +513,7 @@ const Services = () => {
         </div>
       </section>
 
-      {/* Target Audiences Section */}
+      {/* Target Audiences Section (No changes needed) */}
       <section className="py-20 bg-gradient-card">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -521,12 +580,18 @@ const Services = () => {
             Let's discuss your project and find the perfect solution for your business needs.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center mt-6">
-            <Button asChild variant="accent" size="lg" className="cyber-glow w-full sm:w-auto">
-              <RouterLink to="/consultation">
-                Schedule Consultation
-                <Icon icon="solar:arrow-right-bold" className="ml-2 w-5 h-5" />
-              </RouterLink>
-            </Button>
+            
+            {/* Button with Idle Animation */}
+            <motion.div
+              animate={isIdle ? idlePulse : {}}
+            >
+              <Button asChild variant="accent" size="lg" className="cyber-glow w-full sm:w-auto">
+                <RouterLink to="/consultation">
+                  Schedule Consultation
+                  <Icon icon="solar:arrow-right-bold" className="ml-2 w-5 h-5" />
+                </RouterLink>
+              </Button>
+            </motion.div>
 
             <Button asChild variant="outline" size="lg" className="bg-white/10 border-white/30 text-white hover:bg-white/20 w-full sm:w-auto">
               <RouterLink to="/projects">View Projects</RouterLink>
