@@ -14,6 +14,7 @@ const Navbar = () => {
     { name: "Home", path: "/" },
     { name: "Services", path: "/services" },
     { name: "Projects", path: "/projects" },
+    {name: "Pricing", path: "/pricing" },
     { name: "About", path: "/about" },
     { name: "Contact", path: "/contact" },
   ];
@@ -22,13 +23,26 @@ const Navbar = () => {
     <nav className="fixed top-0 w-full z-50 bg-background/95 backdrop-blur-sm border-b border-border shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-primary rounded flex items-center justify-center">
-              <span className="text-white font-bold text-sm">Z</span>
-            </div>
-            <span className="font-bold text-xl text-foreground hidden sm:block">ZEKTECH</span>
-          </Link>
+          {/* Logo  use the image favicon.ico*/}
+          {/* Logo (using uploaded favicon image) */}
+<Link to="/" className="flex items-center space-x-2">
+  <div className="w-8 h-8 bg-primary rounded flex items-center justify-center">
+    <img
+      src="/ZekTechLogo.png"
+      alt="ZEKTECH Logo"
+      className="w-5 h-5"
+    />
+  </div>
+
+  {/* Text container */}
+  <div className="flex flex-col leading-tight hidden sm:flex">
+    <span className="font-bold text-xl text-foreground">ZEKTECH</span>
+    <span className="text-xs text-muted-foreground mt-[-2px]">
+      Solutions & Ventures
+    </span>
+  </div>
+</Link>
+
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6 lg:space-x-8">
