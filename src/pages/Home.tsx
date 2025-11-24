@@ -93,7 +93,7 @@ const Home = () => {
         
         {/* Foreground Content */}
         <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-8 leading-tight animate-fade-in-up">
+          <h1 className="text-4xl  md:text-7xl font-bold text-white mb-8 leading-tight animate-fade-in-up ">
             Your Trusted Partner for Freelance Digital Solutions
           </h1>
           

@@ -203,7 +203,7 @@ const Contact = () => {
                       />
                     </div>
 
-                    <Button type="submit" variant="hero" size="lg" className="w-full">
+                    <Button type="submit" variant="accent" size="lg" className="w-full">
                       Send Message
                       <Send className="ml-2 w-4 h-4" />
                     </Button>
