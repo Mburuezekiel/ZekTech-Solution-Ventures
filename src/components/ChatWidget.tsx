@@ -8,9 +8,11 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/components/ui/use-toast';
 
 interface Message {
+  id?: string;
   role: 'user' | 'assistant';
   content: string;
   timestamp: Date;
+  read_status?: boolean;
 }
 
 const ChatWidget = () => {
@@ -18,7 +20,9 @@ const ChatWidget = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
   const [sessionId] = useState(() => `session_${Date.now()}`);
+  const [conversationId, setConversationId] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
@@ -32,15 +36,77 @@ const ChatWidget = () => {
 
   useEffect(() => {
     if (isOpen && messages.length === 0) {
-      setMessages([
-        {
-          role: 'assistant',
-          content: "👋 Hi! I'm LYRA-AIDE, your AI assistant. How can I help you today?",
-          timestamp: new Date(),
-        },
-      ]);
+      initializeConversation();
     }
   }, [isOpen, messages.length]);
+
+  const initializeConversation = async () => {
+    try {
+      // Create conversation in database
+      const { data: convData, error: convError } = await supabase
+        .from('chat_conversations')
+        .insert({ session_id: sessionId })
+        .select()
+        .single();
+
+      if (convError) throw convError;
+      setConversationId(convData.id);
+
+      // Add welcome message
+      const welcomeMessage = {
+        role: 'assistant' as const,
+        content: "👋 Hi! I'm ZeckTech AI, your intelligent assistant. How can I help you today?",
+        timestamp: new Date(),
+      };
+      
+      setMessages([welcomeMessage]);
+
+      // Store welcome message in database
+      await supabase.from('chat_messages').insert({
+        conversation_id: convData.id,
+        role: 'assistant',
+        content: welcomeMessage.content,
+      });
+    } catch (error) {
+      console.error('Error initializing conversation:', error);
+    }
+  };
+
+  // Listen for new messages from admin
+  useEffect(() => {
+    if (!conversationId) return;
+
+    const channel = supabase
+      .channel(`conversation_${conversationId}`)
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'chat_messages',
+          filter: `conversation_id=eq.${conversationId}`,
+        },
+        (payload: any) => {
+          if (payload.new.role === 'assistant') {
+            setMessages((prev) => [
+              ...prev,
+              {
+                id: payload.new.id,
+                role: 'assistant',
+                content: payload.new.content,
+                timestamp: new Date(payload.new.created_at),
+                read_status: payload.new.read_status,
+              },
+            ]);
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [conversationId]);
 
   // Collect website content for context
   const getWebsiteContent = () => {
@@ -99,7 +165,7 @@ We focus on delivering high-quality, conversion-optimized designs that help busi
 
   const sendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!input.trim() || isLoading) return;
+    if (!input.trim() || isLoading || !conversationId) return;
 
     const userMessage: Message = {
       role: 'user',
@@ -110,8 +176,16 @@ We focus on delivering high-quality, conversion-optimized designs that help busi
     setMessages((prev) => [...prev, userMessage]);
     setInput('');
     setIsLoading(true);
+    setIsTyping(true);
 
     try {
+      // Store user message in database
+      await supabase.from('chat_messages').insert({
+        conversation_id: conversationId,
+        role: 'user',
+        content: userMessage.content,
+      });
+
       const { data, error } = await supabase.functions.invoke('chat-assistant', {
         body: {
           messages: [...messages, userMessage].map(m => ({
@@ -119,6 +193,7 @@ We focus on delivering high-quality, conversion-optimized designs that help busi
             content: m.content
           })),
           websiteContent: getWebsiteContent(),
+          conversationId,
         },
       });
 
@@ -131,19 +206,25 @@ We focus on delivering high-quality, conversion-optimized designs that help busi
         const needsHumanSupport = assistantResponse.toLowerCase().includes('contact support') ||
                                   assistantResponse.toLowerCase().includes('human support');
 
-        setMessages((prev) => [
-          ...prev,
-          {
-            role: 'assistant',
-            content: assistantResponse,
-            timestamp: new Date(),
-          },
-        ]);
+        const aiMessage = {
+          role: 'assistant' as const,
+          content: assistantResponse,
+          timestamp: new Date(),
+        };
+
+        setMessages((prev) => [...prev, aiMessage]);
+
+        // Store AI response in database
+        await supabase.from('chat_messages').insert({
+          conversation_id: conversationId,
+          role: 'assistant',
+          content: assistantResponse,
+        });
 
         // If AI can't help, offer WhatsApp fallback
         if (needsHumanSupport) {
           setTimeout(() => {
-            handleWhatsAppFallback(input);
+            handleWhatsAppFallback(userMessage.content);
           }, 1000);
         }
       }
@@ -156,9 +237,10 @@ We focus on delivering high-quality, conversion-optimized designs that help busi
       });
       
       // Offer WhatsApp fallback on error
-      handleWhatsAppFallback(input);
+      handleWhatsAppFallback(userMessage.content);
     } finally {
       setIsLoading(false);
+      setIsTyping(false);
     }
   };
 
@@ -250,7 +332,7 @@ We focus on delivering high-quality, conversion-optimized designs that help busi
                   <Icon icon="solar:chat-round-dots-bold" className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-lg">LYRA-AIDE</h3>
+                  <h3 className="font-bold text-lg">ZeckTech AI</h3>
                   <p className="text-xs text-white/80">AI Assistant • Online</p>
                 </div>
               </div>
@@ -284,17 +366,18 @@ We focus on delivering high-quality, conversion-optimized designs that help busi
                     </div>
                   </motion.div>
                 ))}
-                {isLoading && (
+                {(isLoading || isTyping) && (
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     className="flex justify-start"
                   >
                     <div className="bg-muted text-foreground rounded-2xl px-4 py-3">
-                      <div className="flex space-x-2">
-                        <div className="w-2 h-2 bg-foreground/50 rounded-full animate-bounce" />
-                        <div className="w-2 h-2 bg-foreground/50 rounded-full animate-bounce delay-75" />
-                        <div className="w-2 h-2 bg-foreground/50 rounded-full animate-bounce delay-150" />
+                      <div className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-foreground/50 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                        <div className="w-2 h-2 bg-foreground/50 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                        <div className="w-2 h-2 bg-foreground/50 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                        <span className="text-xs text-foreground/70 ml-2">typing...</span>
                       </div>
                     </div>
                   </motion.div>
@@ -314,7 +397,7 @@ We focus on delivering high-quality, conversion-optimized designs that help busi
                   disabled={isLoading}
                 />
                 <Button type="submit" size="icon" disabled={isLoading || !input.trim()}>
-                  <Icon icon="solar:send-bold" className="h-4 w-4" />
+                  <Icon icon="solar:send-bold" className="h-4 w-4 text-white" />
                 </Button>
               </div>
             </form>
