@@ -1,0 +1,7 @@
+project_id = "jbgtxoeqwheqiabryccb"
+
+[functions.chat-assistant]
+verify_jwt = false
+
+[functions.whatsapp-fallback]
+verify_jwt = false

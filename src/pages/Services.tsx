@@ -239,14 +239,7 @@ const Services = () => {
   }, [lastActive, resetActivityTimer]);
 
   const idlePulse = {
-    // Defines the repeating animation: Scale down then back up
     scale: [1, 0.95, 1],
-    transition: {
-      duration: 1.5,
-      ease: [0.42, 0, 0.58, 1], // cubic-bezier equivalent for easeInOut
-      repeat: Infinity,
-      repeatDelay: 2, // Wait 2 seconds before the next pulse
-    }
   };
   // --- END IDLE ANIMATION LOGIC ---
 
@@ -378,6 +371,12 @@ const Services = () => {
                       {/* Button with Idle Animation */}
                       <motion.div
                         animate={isIdle ? idlePulse : {}}
+                        transition={{
+                          duration: 1.5,
+                          ease: "easeInOut",
+                          repeat: isIdle ? Infinity : 0,
+                          repeatDelay: 2,
+                        }}
                       >
                         <Button asChild variant="hero" className="cyber-glow w-full md:w-auto">
                           <RouterLink to="/consultation">
@@ -584,6 +583,12 @@ const Services = () => {
             {/* Button with Idle Animation */}
             <motion.div
               animate={isIdle ? idlePulse : {}}
+              transition={{
+                duration: 1.5,
+                ease: "easeInOut",
+                repeat: isIdle ? Infinity : 0,
+                repeatDelay: 2,
+              }}
             >
               <Button asChild variant="accent" size="lg" className="cyber-glow w-full sm:w-auto">
                 <RouterLink to="/consultation">
