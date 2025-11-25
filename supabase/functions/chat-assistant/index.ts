@@ -11,15 +11,15 @@ serve(async (req) => {
   }
 
   try {
-    const { messages, websiteContent } = await req.json();
+    const { messages, websiteContent, conversationId } = await req.json();
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     
     if (!LOVABLE_API_KEY) {
       throw new Error("LOVABLE_API_KEY is not configured");
     }
 
-    // System prompt that defines LYRA-AIDE behavior
-    const systemPrompt = `You are LYRA-AIDE, the official AI assistant for ZEKTECH website.
+    // System prompt that defines ZeckTech AI behavior
+    const systemPrompt = `You are ZeckTech AI, the official AI assistant for ZEKTECH website.
 
 Your purpose is to provide instant customer support and answer user questions intelligently based on the website's content.
 
