@@ -286,17 +286,17 @@ const Services = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              {/* FIX 1: TabsList for mobile horizontal scrolling */}
-              <TabsList className="flex overflow-x-auto whitespace-nowrap w-full md:grid md:grid-cols-4 mb-12 h-auto cyber-card">
+              {/* TabsList for mobile horizontal scrolling */}
+              <TabsList className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide w-full md:grid md:grid-cols-4 mb-8 md:mb-12 h-auto cyber-card p-2 gap-2">
                 {services.map((service) => (
                   <TabsTrigger 
                     key={service.id} 
                     value={service.id}
-                    className="flex flex-col items-center p-4 sm:p-6 text-left h-auto data-[state=active]:bg-primary data-[state=active]:text-primary-foreground flex-shrink-0 min-w-[120px]"
+                    className="flex flex-col items-center p-3 sm:p-6 text-center h-auto data-[state=active]:bg-primary data-[state=active]:text-primary-foreground flex-shrink-0 min-w-[100px] sm:min-w-[120px] snap-center rounded-lg"
                   >
-                    <Icon icon={service.icon} className="w-6 h-6 mb-1 md:w-8 md:h-8 md:mb-2" />
-                    <span className="font-semibold text-sm md:text-base">{service.title}</span>
-                    <span className="text-xs opacity-70 hidden sm:inline">{service.subtitle}</span>
+                    <Icon icon={service.icon} className="w-5 h-5 mb-1 sm:w-6 sm:h-6 md:w-8 md:h-8 md:mb-2" />
+                    <span className="font-semibold text-xs sm:text-sm md:text-base">{service.title}</span>
+                    <span className="text-[10px] sm:text-xs opacity-70 hidden sm:inline mt-1">{service.subtitle}</span>
                   </TabsTrigger>
                 ))}
               </TabsList>
@@ -308,51 +308,51 @@ const Services = () => {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.5 }}
-                  className="grid grid-cols-1 lg:grid-cols-2 gap-12"
+                  className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12"
                 >
                   <div>
-                    <div className="flex items-center mb-6">
-                      <div className="w-16 h-16 bg-gradient-primary rounded-xl flex items-center justify-center mr-4 cyber-glow">
-                        <Icon icon={service.icon} className="w-8 h-8 text-white" />
+                    <div className="flex items-center mb-4 sm:mb-6">
+                      <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-primary rounded-xl flex items-center justify-center mr-3 sm:mr-4 cyber-glow flex-shrink-0">
+                        <Icon icon={service.icon} className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
                       </div>
-                      <div>
-                        <h2 className="text-3xl font-heading font-bold">{service.title}</h2>
-                        <p className="text-lg text-primary">{service.subtitle}</p>
+                      <div className="min-w-0">
+                        <h2 className="text-2xl sm:text-3xl font-heading font-bold truncate">{service.title}</h2>
+                        <p className="text-base sm:text-lg text-primary">{service.subtitle}</p>
                       </div>
                     </div>
                     
-                    <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
+                    <p className="text-base sm:text-lg text-muted-foreground mb-6 sm:mb-8 leading-relaxed">
                       {service.description}
                     </p>
 
-                    <div className="mb-8">
-                      <h3 className="text-xl font-semibold mb-4">What's Included:</h3>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div className="mb-6 sm:mb-8">
+                      <h3 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">What's Included:</h3>
+                      <div className="grid grid-cols-1 gap-2 sm:gap-3">
                         {service.features.map((feature, index) => (
                           <motion.div
                             key={index}
                             initial={{ opacity: 0, x: -10 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: index * 0.1 }}
-                            className="flex items-center space-x-3"
+                            className="flex items-start space-x-2 sm:space-x-3"
                           >
-                            <Icon icon="solar:check-circle-bold" className="w-5 h-5 text-accent flex-shrink-0" />
-                            <span className="text-muted-foreground">{feature}</span>
+                            <Icon icon="solar:check-circle-bold" className="w-4 h-4 sm:w-5 sm:h-5 text-accent flex-shrink-0 mt-0.5" />
+                            <span className="text-sm sm:text-base text-muted-foreground">{feature}</span>
                           </motion.div>
                         ))}
                       </div>
                     </div>
 
-                    <div className="mb-8">
-                      <h3 className="text-xl font-semibold mb-4">Technologies We Use:</h3>
-                      <div className="flex flex-wrap gap-2">
+                    <div className="mb-6 sm:mb-8">
+                      <h3 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">Technologies We Use:</h3>
+                      <div className="flex flex-wrap gap-1.5 sm:gap-2">
                         {service.tools.map((tool, index) => (
                           <motion.span
                             key={index}
                             initial={{ opacity: 0, scale: 0.8 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ delay: index * 0.05 }}
-                            className="px-3 py-1 bg-secondary text-secondary-foreground rounded-full text-sm"
+                            className="px-2 py-1 sm:px-3 bg-secondary text-secondary-foreground rounded-full text-xs sm:text-sm"
                           >
                             {tool}
                           </motion.span>
@@ -361,11 +361,11 @@ const Services = () => {
                     </div>
 
                     {/* Investment / Get Started */}
-                    <div className="cyber-card rounded-xl p-6 mb-6 flex flex-col md:flex-row items-center justify-between gap-4">
-                      <div>
-                        <p className="text-sm text-muted-foreground">Investment</p>
-                        <p className="text-2xl font-bold text-primary">{service.pricing}</p>
-                        <p className="text-sm text-muted-foreground">Timeline: {service.timeline}</p>
+                    <div className="cyber-card rounded-xl p-4 sm:p-6 mb-4 sm:mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
+                      <div className="w-full sm:w-auto">
+                        <p className="text-xs sm:text-sm text-muted-foreground">Investment</p>
+                        <p className="text-xl sm:text-2xl font-bold text-primary">{service.pricing}</p>
+                        <p className="text-xs sm:text-sm text-muted-foreground">Timeline: {service.timeline}</p>
                       </div>
                       
                       {/* Button with Idle Animation */}
