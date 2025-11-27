@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Calendar, Clock, CheckCircle, ArrowRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
+import BackToTop from "@/components/BackToTop";
 
 const Consultation = () => {
   const [formData, setFormData] = useState({
@@ -383,6 +384,8 @@ const Consultation = () => {
           </div>
         </div>
       </section>
+      
+      <BackToTop />
     </div>
   );
 };

@@ -12,6 +12,7 @@ import {
   Rocket,
   Users
 } from "lucide-react";
+import BackToTop from "@/components/BackToTop";
 
 const Home = () => {
   const services = [
@@ -288,6 +289,8 @@ const Home = () => {
           </div>
         </div>
       </section>
+      
+      <BackToTop />
     </div>
   );
 };
