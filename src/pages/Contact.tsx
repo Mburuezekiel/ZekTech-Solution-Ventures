@@ -19,6 +19,7 @@ import {
   Facebook
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import BackToTop from "@/components/BackToTop";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -347,6 +348,8 @@ const Contact = () => {
           </div>
         </div>
       </section>
+      
+      <BackToTop />
     </div>
   );
 };

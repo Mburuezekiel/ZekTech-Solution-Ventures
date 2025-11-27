@@ -5,7 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardDescription, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { Link as RouterLink } from "react-router-dom"; 
+import { Skeleton } from "@/components/ui/skeleton";
+import { Link as RouterLink } from "react-router-dom";
+import PageLoader from "@/components/PageLoader";
+import BackToTop from "@/components/BackToTop";
 
 // --- Data (Unchanged) ---
 const services = [
@@ -200,6 +203,7 @@ const Services = () => {
   const [selectedService, setSelectedService] = useState("web-design");
   const [expandedService, setExpandedService] = useState<string | null>(null);
   const [isIdle, setIsIdle] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   // --- IDLE ANIMATION LOGIC ---
   const IDLE_TIMEOUT_MS = 10000; // 10 seconds
@@ -258,6 +262,18 @@ const Services = () => {
     setExpandedService(expandedService === serviceId ? null : serviceId);
   };
 
+  useEffect(() => {
+    // Simulate loading
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading) {
+    return <PageLoader />;
+  }
+
   return (
     <div className="min-h-screen bg-gradient-subtle pt-16">
       {/* Hero Section */}
@@ -304,12 +320,25 @@ const Services = () => {
 
             {services.map((service) => (
               <TabsContent key={service.id} value={service.id}>
-                <motion.div
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5 }}
-                  className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12"
-                >
+                {isLoading ? (
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12">
+                    <div className="space-y-6">
+                      <Skeleton className="h-16 w-full" />
+                      <Skeleton className="h-24 w-full" />
+                      <Skeleton className="h-48 w-full" />
+                    </div>
+                    <div className="space-y-6">
+                      <Skeleton className="h-64 w-full rounded-xl" />
+                      <Skeleton className="h-32 w-full" />
+                    </div>
+                  </div>
+                ) : (
+                  <motion.div
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5 }}
+                    className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12"
+                  >
                   <div>
                     <div className="flex items-center mb-4 sm:mb-6">
                       <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-primary rounded-xl flex items-center justify-center mr-3 sm:mr-4 cyber-glow flex-shrink-0">
@@ -505,7 +534,8 @@ const Services = () => {
                       </CardContent>
                     </Card>
                   </motion.div>
-                </motion.div>
+                  </motion.div>
+                )}
               </TabsContent>
             ))}
           </Tabs>
@@ -604,6 +634,8 @@ const Services = () => {
           </div>
         </div>
       </motion.section>
+      
+      <BackToTop />
     </div>
   );
 };

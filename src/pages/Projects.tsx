@@ -10,6 +10,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Link as RouterLink } from "react-router-dom";
+import BackToTop from "@/components/BackToTop";
+import { Badge } from "@/components/ui/badge";
 
 const projects = [
   {
@@ -279,6 +281,8 @@ const Projects = () => {
           </div>
         </motion.div>
       </div>
+      
+      <BackToTop />
     </div>
   );
 };

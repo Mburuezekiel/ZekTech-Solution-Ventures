@@ -4,8 +4,10 @@ import { Icon } from '@iconify/react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Drawer, DrawerContent } from '@/components/ui/drawer';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/components/ui/use-toast';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface Message {
   id?: string;
@@ -14,6 +16,13 @@ interface Message {
   timestamp: Date;
   read_status?: boolean;
 }
+
+const conversationStarters = [
+  "What services do you offer?",
+  "Tell me about your pricing",
+  "How long does a project take?",
+  "Do you offer mobile app development?"
+];
 
 const ChatWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,6 +34,7 @@ const ChatWidget = () => {
   const [conversationId, setConversationId] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
+  const isMobile = useIsMobile();
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -87,17 +97,22 @@ const ChatWidget = () => {
           filter: `conversation_id=eq.${conversationId}`,
         },
         (payload: any) => {
-          if (payload.new.role === 'assistant') {
-            setMessages((prev) => [
-              ...prev,
-              {
-                id: payload.new.id,
-                role: 'assistant',
-                content: payload.new.content,
-                timestamp: new Date(payload.new.created_at),
-                read_status: payload.new.read_status,
-              },
-            ]);
+          if (payload.new.role === 'assistant' && !isLoading) {
+            // Only add if not currently processing a message
+            setMessages((prev) => {
+              const exists = prev.some(m => m.id === payload.new.id);
+              if (exists) return prev;
+              return [
+                ...prev,
+                {
+                  id: payload.new.id,
+                  role: 'assistant',
+                  content: payload.new.content,
+                  timestamp: new Date(payload.new.created_at),
+                  read_status: payload.new.read_status,
+                },
+              ];
+            });
           }
         }
       )
@@ -106,7 +121,7 @@ const ChatWidget = () => {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [conversationId]);
+  }, [conversationId, isLoading]);
 
   // Collect website content for context
   const getWebsiteContent = () => {
@@ -212,6 +227,8 @@ We focus on delivering high-quality, conversion-optimized designs that help busi
           timestamp: new Date(),
         };
 
+        // Temporarily disable realtime to prevent duplicate
+        setIsLoading(true);
         setMessages((prev) => [...prev, aiMessage]);
 
         // Store AI response in database
@@ -220,6 +237,8 @@ We focus on delivering high-quality, conversion-optimized designs that help busi
           role: 'assistant',
           content: assistantResponse,
         });
+
+        setIsLoading(false);
 
         // If AI can't help, offer WhatsApp fallback
         if (needsHumanSupport) {
@@ -275,6 +294,116 @@ We focus on delivering high-quality, conversion-optimized designs that help busi
     }
   };
 
+  const handleSuggestionClick = (suggestion: string) => {
+    setInput(suggestion);
+  };
+
+  const ChatContent = () => (
+    <>
+      {/* Header */}
+      <div className="bg-gradient-hero p-4 text-white">
+        <div className="flex items-center space-x-3">
+          <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+            <Icon icon="solar:chat-round-dots-bold" className="h-5 w-5" />
+          </div>
+          <div>
+            <h3 className="font-bold text-lg">ZeckTech AI</h3>
+            <p className="text-xs text-white/80">AI Assistant • Online</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Messages */}
+      <ScrollArea className="flex-1 p-4">
+        <div className="space-y-4">
+          {messages.map((message, index) => (
+            <motion.div
+              key={message.id || index}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+              className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+            >
+              <div
+                className={`max-w-[80%] rounded-2xl px-4 py-2 ${
+                  message.role === 'user'
+                    ? 'bg-primary text-primary-foreground'
+                    : 'bg-muted text-foreground'
+                }`}
+              >
+                <p className="text-sm">{message.content}</p>
+                <p className="text-xs opacity-70 mt-1">
+                  {message.timestamp.toLocaleTimeString([], {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })}
+                </p>
+              </div>
+            </motion.div>
+          ))}
+          {(isLoading || isTyping) && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="flex justify-start"
+            >
+              <div className="bg-muted text-foreground rounded-2xl px-4 py-3">
+                <div className="flex items-center space-x-2">
+                  <div className="w-2 h-2 bg-foreground/50 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                  <div className="w-2 h-2 bg-foreground/50 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                  <div className="w-2 h-2 bg-foreground/50 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                  <span className="text-xs text-foreground/70 ml-2">typing...</span>
+                </div>
+              </div>
+            </motion.div>
+          )}
+          
+          {/* Conversation Starters */}
+          {messages.length <= 1 && !isLoading && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="space-y-2 mt-4"
+            >
+              <p className="text-xs text-muted-foreground text-center mb-3">Quick questions:</p>
+              <div className="grid grid-cols-1 gap-2">
+                {conversationStarters.map((starter, index) => (
+                  <Button
+                    key={index}
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleSuggestionClick(starter)}
+                    className="text-xs text-left justify-start h-auto py-2 px-3"
+                  >
+                    {starter}
+                  </Button>
+                ))}
+              </div>
+            </motion.div>
+          )}
+          
+          <div ref={messagesEndRef} />
+        </div>
+      </ScrollArea>
+
+      {/* Input */}
+      <form onSubmit={sendMessage} className="p-4 border-t border-border">
+        <div className="flex space-x-2">
+          <Input
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Type your message..."
+            className="flex-1"
+            disabled={isLoading}
+          />
+          <Button type="submit" size="icon" disabled={isLoading || !input.trim()}>
+            <Icon icon="solar:send-bold" className="h-4 w-4 text-white" />
+          </Button>
+        </div>
+      </form>
+    </>
+  );
+
   return (
     <>
       {/* Chat Button */}
@@ -316,94 +445,29 @@ We focus on delivering high-quality, conversion-optimized designs that help busi
       </motion.div>
 
       {/* Chat Window */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            className="fixed bottom-24 right-6 w-[380px] h-[500px] bg-card border border-border rounded-2xl shadow-2xl z-50 flex flex-col overflow-hidden"
-          >
-            {/* Header */}
-            <div className="bg-gradient-hero p-4 text-white">
-              <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-                  <Icon icon="solar:chat-round-dots-bold" className="h-5 w-5" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-lg">ZeckTech AI</h3>
-                  <p className="text-xs text-white/80">AI Assistant • Online</p>
-                </div>
-              </div>
+      {isMobile ? (
+        <Drawer open={isOpen} onOpenChange={setIsOpen}>
+          <DrawerContent className="h-[75vh]">
+            <div className="flex flex-col h-full">
+              <ChatContent />
             </div>
-
-            {/* Messages */}
-            <ScrollArea className="flex-1 p-4">
-              <div className="space-y-4">
-                {messages.map((message, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
-                  >
-                    <div
-                      className={`max-w-[80%] rounded-2xl px-4 py-2 ${
-                        message.role === 'user'
-                          ? 'bg-primary text-primary-foreground'
-                          : 'bg-muted text-foreground'
-                      }`}
-                    >
-                      <p className="text-sm">{message.content}</p>
-                      <p className="text-xs opacity-70 mt-1">
-                        {message.timestamp.toLocaleTimeString([], {
-                          hour: '2-digit',
-                          minute: '2-digit',
-                        })}
-                      </p>
-                    </div>
-                  </motion.div>
-                ))}
-                {(isLoading || isTyping) && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="flex justify-start"
-                  >
-                    <div className="bg-muted text-foreground rounded-2xl px-4 py-3">
-                      <div className="flex items-center space-x-2">
-                        <div className="w-2 h-2 bg-foreground/50 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                        <div className="w-2 h-2 bg-foreground/50 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                        <div className="w-2 h-2 bg-foreground/50 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
-                        <span className="text-xs text-foreground/70 ml-2">typing...</span>
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
-                <div ref={messagesEndRef} />
-              </div>
-            </ScrollArea>
-
-            {/* Input */}
-            <form onSubmit={sendMessage} className="p-4 border-t border-border">
-              <div className="flex space-x-2">
-                <Input
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  placeholder="Type your message..."
-                  className="flex-1"
-                  disabled={isLoading}
-                />
-                <Button type="submit" size="icon" disabled={isLoading || !input.trim()}>
-                  <Icon icon="solar:send-bold" className="h-4 w-4 text-white" />
-                </Button>
-              </div>
-            </form>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          </DrawerContent>
+        </Drawer>
+      ) : (
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: 20, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.95 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+              className="fixed bottom-24 right-6 w-[380px] h-[500px] bg-card border border-border rounded-2xl shadow-2xl z-50 flex flex-col overflow-hidden"
+            >
+              <ChatContent />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      )}
     </>
   );
 };

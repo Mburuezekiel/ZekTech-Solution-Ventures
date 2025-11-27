@@ -14,6 +14,7 @@ import {
   X,
   FileText
 } from "lucide-react";
+import BackToTop from "@/components/BackToTop";
 
 const About = () => {
    const [showCertificate, setShowCertificate] = useState(false);
@@ -259,6 +260,8 @@ const About = () => {
           </Button>
         </div>
       </section>
+      
+      <BackToTop />
     </div>
   );
 };
